@@ -12,7 +12,7 @@
     <artifactId>user-demo</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>UserDemo</name>
-    <description>UserDemo</description>
+    <description>Demo project for simple user management</description>
     <properties>
         <java.version>19</java.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
