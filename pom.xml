@@ -17,6 +17,7 @@
         <java.version>19</java.version>
         <mapstruct.version>1.5.3.Final</mapstruct.version>
         <springdoc.version>2.0.2</springdoc.version>
+        <jib.version>3.3.1</jib.version>
     </properties>
     <dependencies>
         <dependency>
@@ -89,6 +90,28 @@
                             <version>${hibernate.version}</version>
                         </path>
                     </annotationProcessorPaths>
+                </configuration>
+            </plugin>
+
+            <plugin>
+                <groupId>com.google.cloud.tools</groupId>
+                <artifactId>jib-maven-plugin</artifactId>
+                <version>${jib.version}</version>
+                <configuration>
+                    <from>
+                        <image>eclipse-temurin:19-jre-alpine</image>
+                    </from>
+                    <to>
+                        <image>evaristegalois/user-demo</image>
+                        <tags>
+                            <tag>${project.version}</tag>
+                            <tag>latest</tag>
+                        </tags>
+                    </to>
+                    <container>
+                        <format>OCI</format>
+                        <user>nobody</user>
+                    </container>
                 </configuration>
             </plugin>
         </plugins>
