@@ -70,6 +70,7 @@ public class UserService {
     }
 
     private Specification<User> likeSpecification(SingularAttribute<User, String> attribute, String value) {
-        return (root, query, builder) -> builder.like(root.get(attribute), LIKE_FORMAT.formatted(value));
+        return (root, query, builder) ->
+                builder.like(builder.lower(root.get(attribute)), LIKE_FORMAT.formatted(value.toLowerCase()));
     }
 }

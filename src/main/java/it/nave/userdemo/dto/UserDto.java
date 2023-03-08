@@ -1,6 +1,9 @@
 package it.nave.userdemo.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 public class UserDto {
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private long id;
     private String name;
     private String surname;

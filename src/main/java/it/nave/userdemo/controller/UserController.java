@@ -22,7 +22,6 @@ import java.nio.file.Path;
 @RestController
 @RequestMapping(path = "user")
 public class UserController {
-
     private final UserService userService;
     private final JobLauncher jobLauncher;
     private final Job job;
