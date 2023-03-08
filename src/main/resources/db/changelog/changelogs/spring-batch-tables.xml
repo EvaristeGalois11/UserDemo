@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                   xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+                   https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
+    <changeSet author="Claudio Nave" id="1">
+        <createTable tableName="batch_job_instance">
+            <column name="job_instance_id" type="INTEGER">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="INTEGER"/>
+            <column name="job_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="job_key" type="VARCHAR(32)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Claudio Nave" id="2">
+        <createTable tableName="batch_job_execution">
+            <column name="job_execution_id" type="INTEGER">
+                <constraints primaryKey="true"/>
+            </column>
+            <column name="version" type="INTEGER"/>
+            <column name="job_instance_id" type="INTEGER">
+                <constraints nullable="false" foreignKeyName="job_inst_exec_fk"
+                             referencedTableName="batch_job_instance" referencedColumnNames="job_instance_id"/>
+            </column>
+            <column name="create_time" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="TIMESTAMP"/>
+            <column name="end_time" type="TIMESTAMP"/>
+            <column name="status" type="VARCHAR(10)"/>
+            <column name="exit_code" type="VARCHAR(2500)"/>
+            <column name="exit_message" type="VARCHAR(2500)"/>
+            <column name="last_updated" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Claudio Nave" id="3">
+        <createTable tableName="batch_job_execution_context">
+            <column name="job_execution_id" type="INTEGER">
+                <constraints primaryKey="true" foreignKeyName="job_exec_ctx_fk"
+                             referencedTableName="batch_job_execution" referencedColumnNames="job_execution_id"/>
+            </column>
+            <column name="short_context" type="VARCHAR(2500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="serialized_context" type="TEXT"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Claudio Nave" id="4">
+        <createTable tableName="batch_job_execution_params">
+            <column name="job_execution_id" type="INTEGER">
+                <constraints nullable="false" foreignKeyName="job_exec_params_fk"
+                             referencedTableName="batch_job_execution" referencedColumnNames="job_execution_id"/>
+            </column>
+            <column name="parameter_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parameter_type" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="parameter_value" type="VARCHAR(2500)"/>
+            <column name="identifying" type="CHAR(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet author="Claudio Nave" id="5">
+        <createTable tableName="batch_step_execution">
+            <column name="step_execution_id" type="INTEGER">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="batch_step_execution_pkey"/>
+            </column>
+            <column name="version" type="INTEGER">
+                <constraints nullable="false"/>
+            </column>
+            <column name="step_name" type="VARCHAR(100)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="job_execution_id" type="INTEGER">
+                <constraints nullable="false" foreignKeyName="job_exec_step_fk"
+                             referencedTableName="batch_job_execution" referencedColumnNames="job_execution_id"/>
+            </column>
+            <column name="create_time" type="TIMESTAMP">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_time" type="TIMESTAMP"/>
+            <column name="end_time" type="TIMESTAMP"/>
+            <column name="status" type="VARCHAR(10)"/>
+            <column name="commit_count" type="INTEGER"/>
+            <column name="read_count" type="INTEGER"/>
+            <column name="filter_count" type="INTEGER"/>
+            <column name="write_count" type="INTEGER"/>
+            <column name="read_skip_count" type="INTEGER"/>
+            <column name="write_skip_count" type="INTEGER"/>
+            <column name="process_skip_count" type="INTEGER"/>
+            <column name="rollback_count" type="INTEGER"/>
+            <column name="exit_code" type="VARCHAR(2500)"/>
+            <column name="exit_message" type="VARCHAR(2500)"/>
+            <column name="last_updated" type="TIMESTAMP"/>
+        </createTable>
+    </changeSet>
+    <changeSet author="Claudio Nave" id="6">
+        <createTable tableName="batch_step_execution_context">
+            <column name="step_execution_id" type="INTEGER">
+                <constraints primaryKey="true" foreignKeyName="step_exec_ctx_fk"
+                             referencedTableName="batch_step_execution" referencedColumnNames="step_execution_id"/>
+            </column>
+            <column name="short_context" type="VARCHAR(2500)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="serialized_context" type="TEXT"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet author="Claudio Nave" id="7">
+        <addUniqueConstraint columnNames="job_name, job_key" constraintName="job_inst_un"
+                             tableName="batch_job_instance"/>
+    </changeSet>
+
+    <changeSet author="Claudio Nave" id="8">
+        <createSequence sequenceName="batch_job_execution_seq" incrementBy="1"/>
+    </changeSet>
+    <changeSet author="Claudio Nave" id="9">
+        <createSequence sequenceName="batch_job_seq" incrementBy="1"/>
+    </changeSet>
+    <changeSet author="Claudio Nave" id="10">
+        <createSequence sequenceName="batch_step_execution_seq" incrementBy="1"/>
+    </changeSet>
+</databaseChangeLog>

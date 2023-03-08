@@ -4,4 +4,5 @@
                    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
                    https://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.17.xsd">
     <include file="changelogs/init-db.xml" relativeToChangelogFile="true"/>
+    <include file="changelogs/spring-batch-tables.xml" relativeToChangelogFile="true"/>
 </databaseChangeLog>
